@@ -2,13 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-/*
- * Created by chun on 8/8/18 for robotics boot camp 2018.
- */
-
 @Autonomous
 
-public class BootCamp2018Autonomous extends BaseRobot {
+public class JonathonAutonomous extends BaseRobot {
     private int stage = 0;
 
     @Override
@@ -26,7 +22,7 @@ public class BootCamp2018Autonomous extends BaseRobot {
         super.loop();
         switch (stage) {
             case 0:
-                if (auto_drive(0.8, 12)) {
+                if (auto_drive(0.5, 12)) {
                     reset_drive_encoders();
                     stage++;
                 }
