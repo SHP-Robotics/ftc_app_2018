@@ -6,6 +6,15 @@ package org.firstinspires.ftc.teamcode;
  */
 
 public class ConstantVariables {
+    public static final int K_FLIP_MIN = 0;
+    public static final int K_FLIP_MAX = 10000;
+    public static final int K_FLIP_ERROR_P = 500;
+
+    public static final int K_INTAKE_EXTENSION_MIN = 0;
+    public static final int K_INTAKE_EXTENSION_MAX = 10000;
+
+    public static final int K_CLIMB_MIN = 0;
+    public static final int K_CLIMB_MAX = 10000;
 
     public static final int K_PPR_DRIVE = 1120;
     public static final double K_DRIVE_WHEEL_DIA = 4;

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous
 
-public class MoveGoldAutonomous extends BaseRobot {
+public class MoveGoldAutonomous extends LimitedBaseRobot { //CHANGE TO BaseRobot
     private int stage = 0;
     private GoldAlignDetector detector;
 
@@ -61,11 +61,11 @@ public class MoveGoldAutonomous extends BaseRobot {
                     stage++;
                 }
                 if (detector.getXPosition()>280) {
-                    if (auto_turn(0.2,10)) { //turns left
+                    if (auto_turn(0.4,10)) { //turns left
                         reset_drive_encoders();
                     }
                 } else if (detector.getXPosition()<280) {
-                    if (auto_turn(-0.2, 10)) { //turns right
+                    if (auto_turn(-0.4, 10)) { //turns right
                         reset_drive_encoders();
                     }
                 }
