@@ -4,16 +4,14 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /*
  * Created by chun on 8/8/18 for robotics boot camp 2018.
  */
 
 @Autonomous
-@Disabled
 
-public class MoveGoldAutonomous extends BaseRobot { //CHANGE TO BaseRobot
+public class CubeMarkerAutonomous extends BaseRobot { //CHANGE TO BaseRobot
     private int stage = 0;
     private GoldAlignDetector detector;
 
@@ -54,46 +52,74 @@ public class MoveGoldAutonomous extends BaseRobot { //CHANGE TO BaseRobot
         super.loop();
         telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral
         telemetry.addData("X Pos" , detector.getXPosition()); // Gold X pos.
-
+        double turnMult = 0;
         switch (stage) {
             case 0:
-                //detatch climber
-                stage++;
+                //detach climber
+                if (Math.abs(get_climb_motor_enc())>4000) {
+                    climb(0);
+                    stage++;
+                } else {
+                    climb(1);
+                }
+
                 break;
             case 1:
-                if (detector.getAligned()) {
+                //move away from lander
+                if (auto_drive(0.8, 6)) {
+                    reset_drive_encoders();
                     stage++;
-                }
-                if (detector.getXPosition()>280) {
-                    if (auto_turn(0.4,10)) { //turns left
-                        reset_drive_encoders();
-                    }
-                } else if (detector.getXPosition()<280) {
-                    if (auto_turn(-0.4, 10)) { //turns right
-                        reset_drive_encoders();
-                    }
                 }
                 break;
             case 2:
-                if (auto_drive(0.8, 12)) {
+                set_wedge_servo(ConstantVariables.K_WEDGE_SERVO_DOWN);
+            case 3:
+                if (detector.getXPosition()>280) {
+                    if (auto_turn(0.4,50)) { //turns left
+                        reset_drive_encoders();
+                        turnMult=-1;
+                        stage++;
+                    }
+                } else if (detector.getXPosition()<280) {
+                    if (auto_turn(-0.4, 50)) { //turns right
+                        reset_drive_encoders();
+                        turnMult=1;
+                        stage++;
+                    }
+                } else {
+                    turnMult=0;
+                    stage++;
+                }
+                break;
+            case 4:
+                if (auto_drive(0.8, 20)) {
                     reset_drive_encoders();
                     stage++;
                 }
                 break;
-            case 3:
-                /*if (auto_drive(0.8, 12)) {
-                    reset_drive_encoders();
-                    stage++;
-                }
-                break;*/
-            case 4:
-                /*if (auto_drive(0.8, 12)) {
-                    reset_drive_encoders();
-                    stage++;
-                }
-                break;*/
             case 5:
-                if (auto_drive(0.8, 12)) {
+                if (turnMult == -1 || turnMult == 1) {
+                    if (auto_turn(-0.4*(turnMult), 40)) {
+                        reset_drive_encoders();
+                        stage++;
+                    }
+                } else {
+                    stage++;
+                }
+                break;
+            case 6:
+                if (auto_drive(0.8, 20)) {
+                    reset_drive_encoders();
+                    stage++;
+                }
+                break;
+            case 7:
+                set_marker_servo(ConstantVariables.K_MARKER_SERVO_DOWN);
+                stage++;
+                break;
+            case 8:
+                //back out of corner
+                if (auto_drive(-0.5, 8)) {
                     reset_drive_encoders();
                     stage++;
                 }

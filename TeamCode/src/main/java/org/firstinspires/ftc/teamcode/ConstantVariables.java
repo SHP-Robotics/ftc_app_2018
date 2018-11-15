@@ -16,7 +16,13 @@ public class ConstantVariables {
     public static final int K_CLIMB_MIN = 0;
     public static final int K_CLIMB_MAX = 10000;
 
-    public static final int K_PPR_DRIVE = 1120;
+    public static final double K_MARKER_SERVO_UP = 1;
+    public static final double K_MARKER_SERVO_DOWN = 0.5;
+
+    public static final double K_WEDGE_SERVO_UP = 0.2;
+    public static final double K_WEDGE_SERVO_DOWN = 1;
+
+    public static final int K_PPR_DRIVE = 280;
     public static final double K_DRIVE_WHEEL_DIA = 4;
     public static final double K_DRIVE_DIA = 16.5;
 

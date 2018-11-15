@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /*
@@ -7,8 +8,9 @@ Created by chun on 8/8/18 for robotics boot camp 2018.
 */
 
 @TeleOp
+@Disabled
 
-public class TestOpMode extends LimitedBaseRobot { //CHANGE TO BaseRobot
+public class TestOpMode extends BaseRobot { //CHANGE TO BaseRobot
 
     @Override
     public void init() {
@@ -25,7 +27,7 @@ public class TestOpMode extends LimitedBaseRobot { //CHANGE TO BaseRobot
         super.loop();
         //drive train
         tank_drive(gamepad1.right_stick_y, gamepad1.left_stick_y);
-
+        /*
         //intake flip
         if(gamepad1.x) {
             flip_intake(0.35);
@@ -52,7 +54,7 @@ public class TestOpMode extends LimitedBaseRobot { //CHANGE TO BaseRobot
         } else {
             intake(0);
         }
-        /*
+        */
         //climber
         if(gamepad1.dpad_up) {
             climb(1);
@@ -60,7 +62,7 @@ public class TestOpMode extends LimitedBaseRobot { //CHANGE TO BaseRobot
             climb(-1);
         } else {
             climb(0);
-        }*/
+        }
 
         //flip_intake(gamepad1.right_trigger - gamepad1.left_trigger);
         //extend_intake(gamepad1.right_bumper ? -1 : gamepad1.left_bumper ? 1 : 0);

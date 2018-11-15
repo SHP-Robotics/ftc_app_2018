@@ -4,16 +4,14 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /*
  * Created by chun on 8/8/18 for robotics boot camp 2018.
  */
 
 @Autonomous
-@Disabled
 
-public class MoveGoldAutonomous extends BaseRobot { //CHANGE TO BaseRobot
+public class FullAutonomous extends BaseRobot {
     private int stage = 0;
     private GoldAlignDetector detector;
 
@@ -22,8 +20,6 @@ public class MoveGoldAutonomous extends BaseRobot { //CHANGE TO BaseRobot
         super.init();
 
         telemetry.addData("Status", "DogeCV 2018.0 - Gold Align Example");
-
-        //set_marker_servo(ConstantVariables.K_MARKER_SERVO_UP);
 
         detector = new GoldAlignDetector();
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
@@ -57,10 +53,75 @@ public class MoveGoldAutonomous extends BaseRobot { //CHANGE TO BaseRobot
 
         switch (stage) {
             case 0:
-                //detatch climber
-                stage++;
+                //detach climber
+                if (Math.abs(get_climb_motor_enc())>4000) {
+                    climb(0);
+                    stage++;
+                } else {
+                    climb(1);
+                }
+
                 break;
             case 1:
+                //move away from lander
+                if (auto_drive(0.8, 6)) {
+                    reset_drive_encoders();
+                    stage++;
+                }
+                break;
+            case 2:
+                //turn left
+                if (auto_turn(-0.5,45)) {
+                    reset_drive_encoders();
+                    stage++;
+                }/*
+            case 3:
+                //move to wall
+                if (auto_drive(0.8, 50)) {
+                    reset_drive_encoders();
+                    stage++;
+                }
+                break;
+            case 4:
+                //back off wall
+                if (auto_drive(-0.5, 4)) {
+                    reset_drive_encoders();
+                    stage++;
+                }
+                break;
+            case 5:
+                //turn right
+                if (auto_turn(0.5,90)) {
+                    reset_drive_encoders();
+                    stage++;
+                }
+                break;
+            case 6:
+                //move into corner
+                if (auto_drive(0.8, 40)) {
+                    reset_drive_encoders();
+                    stage++;
+                }
+                break;
+            case 7:
+                set_marker_servo(ConstantVariables.K_MARKER_SERVO_DOWN);
+                stage++;
+                break;
+            case 8:
+                //back out of corner
+                if (auto_drive(-0.5, 8)) {
+                    reset_drive_encoders();
+                    stage++;
+                }
+                break;
+            case 9:
+                //turn right
+                if (auto_turn(1,90)) {
+                    reset_drive_encoders();
+                    stage++;
+                }
+                break;
+            case 10:
                 if (detector.getAligned()) {
                     stage++;
                 }
@@ -74,30 +135,13 @@ public class MoveGoldAutonomous extends BaseRobot { //CHANGE TO BaseRobot
                     }
                 }
                 break;
-            case 2:
-                if (auto_drive(0.8, 12)) {
-                    reset_drive_encoders();
-                    stage++;
-                }
-                break;
-            case 3:
-                /*if (auto_drive(0.8, 12)) {
+            case 11:
+                //move gold mineral
+                if (auto_drive(1, 15)) {
                     reset_drive_encoders();
                     stage++;
                 }
                 break;*/
-            case 4:
-                /*if (auto_drive(0.8, 12)) {
-                    reset_drive_encoders();
-                    stage++;
-                }
-                break;*/
-            case 5:
-                if (auto_drive(0.8, 12)) {
-                    reset_drive_encoders();
-                    stage++;
-                }
-                break;
             default:
                 break;
         }

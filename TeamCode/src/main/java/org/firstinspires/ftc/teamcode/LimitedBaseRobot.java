@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 public class LimitedBaseRobot extends OpMode {
-    public DcMotor leftDriveMotor, rightDriveMotor, leftFlipMotor, rightFlipMotor, intakeExtensionMotor, intakeMotor;
+    public DcMotor leftDriveMotor, rightDriveMotor, leftFlipMotor, rightFlipMotor, intakeExtensionMotor, intakeMotor, climbMotor;
     public ElapsedTime timer = new ElapsedTime();
 
 
@@ -18,7 +18,7 @@ public class LimitedBaseRobot extends OpMode {
         rightFlipMotor = hardwareMap.get(DcMotor.class, "rightFlipMotor");
         intakeExtensionMotor = hardwareMap.get(DcMotor.class, "intakeExtensionMotor");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-        //climbMotor = hardwareMap.get(DcMotor.class, "climbMotor");
+        climbMotor = hardwareMap.get(DcMotor.class, "climbMotor");
     }
 
     @Override
@@ -35,7 +35,7 @@ public class LimitedBaseRobot extends OpMode {
         telemetry.addData("D03 Right Flip Motor Enc: ", get_right_flip_motor_enc());
         telemetry.addData("D04 Intake Extension Motor Enc: ", get_intake_extension_motor_enc());
         telemetry.addData("D05 Intake Motor Enc: ", get_intake_motor_enc());
-        //telemetry.addData("D06 Climb Motor Enc: ", get_climb_motor_enc());
+        telemetry.addData("D06 Climb Motor Enc: ", get_climb_motor_enc());
         telemetry.addData("D98 Left Trigger: ", gamepad1.right_trigger);
         telemetry.addData("D99 Right Trigger: ", gamepad1.left_trigger);
     }
@@ -83,7 +83,7 @@ public class LimitedBaseRobot extends OpMode {
         intakeMotor.setPower(speed);
     }
 
-    /*public void climb(double power) {
+    public void climb(double power) {
         double speed = Range.clip(power, -1, 1);
 
         if (get_climb_motor_enc() >= ConstantVariables.K_CLIMB_MAX) {
@@ -92,8 +92,7 @@ public class LimitedBaseRobot extends OpMode {
             speed = Range.clip(speed, 0, 1);
         }
         climbMotor.setPower(speed);
-    }*/
-
+    }
 
     public boolean auto_drive(double power, double inches) {
         double TARGET_ENC = ConstantVariables.K_PPIN_DRIVE * inches;
@@ -197,11 +196,11 @@ public class LimitedBaseRobot extends OpMode {
         }
         return intakeMotor.getCurrentPosition();
     }
-    /*
+
     public int get_climb_motor_enc() {
         if (climbMotor.getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
             climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
         return climbMotor.getCurrentPosition();
-    }*/
+    }
 }
